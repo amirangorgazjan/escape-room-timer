@@ -21,7 +21,7 @@ app.io = socketIO(app.server, {});
 timer(app.io);
 
 // Listener
-app.listen(3000);
+app.listen(80);
 
-console.log('Timer at http://localhost:3000');
-console.log('Controller at http://localhost:3000/controller.html');
+console.log('Timer at http://localhost:80');
+console.log('Controller at http://localhost:80/controller.html');

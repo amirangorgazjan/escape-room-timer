@@ -94,7 +94,7 @@ function updateGameStatePopup(stateName, contents) {
 	}
 }
 
-function reset() {
+function resetInput() {
 	if ($input) {
 		$input.value = '';
 	}
@@ -116,10 +116,15 @@ socket.on('sync', serverState => {
 	update();
 });
 
-socket.on('reset', reset);
+const incorrectSound = player('incorrect');
+
+socket.on('reset', resetInput);
 socket.on('won', player('won'));
 socket.on('lost', player('lost'));
-socket.on('incorrect', player('incorrect'));
+socket.on('incorrect', () => {
+	resetInput();
+	incorrectSound();
+});
 
 // Controller UI
 if ($button.start) {

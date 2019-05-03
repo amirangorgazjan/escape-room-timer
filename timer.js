@@ -43,12 +43,19 @@ function reset(socket) {
 // Player input
 function startPlayer(socket) {
 	socket.on('pin', data => {
+		const pin = `${data}`;
+
+		if (pin.length < 4) {
+			socket.emit('incorrect');
+			return;
+		}
+
 		// If game state is already lost or won, don't do anything
 		if (state.won || state.lost) {
 			return;
 		}
 
-		if (`${data}` !== correctPin) {
+		if (pin !== correctPin) {
 			state.tries += 1;
 
 			if (state.tries < maxTries) {

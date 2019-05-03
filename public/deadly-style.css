@@ -1,0 +1,126 @@
+@keyframes bg {
+	0% {background-color: #800;}
+	50% {background-color: #F00;}
+	100% {background-color: #800;}
+}
+
+@keyframes bgwin {
+	0% {background-color: #0F0;}
+	50% {background-color: #0a0;}
+	100% {background-color: #0F0;}
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background: #000;
+	color: #FFF;
+	font-family: sans-serif;
+	height: 100%;
+	width: 100%;
+
+	animation-name: bg;
+	animation-duration: 15s;
+	animation-iteration-count: infinite;
+
+	position: relative;
+}
+
+body.won {
+	background: #0F0;
+	animation-name: bgwin;
+}
+
+.popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -260px;
+    margin-top: -30px;
+    width: 500px;
+	padding: 80px 0;
+    border: 1px solid white;
+
+    text-align: center;
+}
+
+.popup.lost {
+	background: red;
+}
+
+.popup.won {
+	background: #0F0;
+}
+
+.popup-title {
+	font-size: 60px;
+}
+
+.popup-subtitle {
+	font-size: 30px;
+}
+
+.table {
+	display:table;
+	overflow:hidden;
+	margin:0px auto;
+	height: 100%
+}
+
+.table-cell {
+	display:table-cell;
+	vertical-align: middle;
+}
+
+.content {
+	text-align: center;
+}
+
+.timer {
+	font-size: 150px;
+	margin-bottom: 20px;
+}
+
+.description {
+	margin-bottom: 20px;
+}
+
+.input {
+	font-size: 80px;
+	background: rgba(0, 0, 0, 0.1);
+	border: none;
+	padding: 40px;
+	text-align: center;
+	color: #fff;
+	width: 300px;
+}
+
+.input:focus {
+	outline: none;
+}
+
+.actions {
+	position: absolute;
+
+	bottom: 0;
+	padding: 40px 0;
+
+	text-align: center;
+
+	width: 100%;
+}
+
+.action {
+	width: 100px;
+	font-size: 24px;
+	margin: 0 20px;
+	padding: 10px;
+}

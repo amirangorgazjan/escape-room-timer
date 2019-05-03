@@ -22,3 +22,6 @@ timer(app.io);
 
 // Listener
 app.listen(3000);
+
+console.log('Timer at http://localhost:3000');
+console.log('Controller at http://localhost:3000/controller.html');

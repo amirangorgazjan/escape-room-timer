@@ -3,6 +3,10 @@ let state = {};
 
 const $clock = document.getElementById('timer');
 const $body = document.getElementById('body');
+const $input = document.getElementById('input');
+const $triesLeft = document.getElementById('triesLeft');
+
+console.log($triesLeft);
 
 const $button = {
 	start: document.getElementById('start'),
@@ -10,22 +14,20 @@ const $button = {
 	reset: document.getElementById('reset'),
 };
 
-const $input = document.getElementById('input');
 
 const sounds = {
 	clock: new Audio('audio/tick-tock.mp3'),
 	won: new Audio('audio/ta-da.mp3'),
 	lost: new Audio('audio/sad-trombone.mp3'),
+	incorrect: new Audio('audio/incorrect.mp3'),
 };
 
 const wonTemplate = `
 	<p class="popup-title">YOU WON</p>
-	<p class="popup-subtitle">Assasination stopped!</p>
 `;
 
 const lostTemplate = `
 	<p class="popup-title">GAME OVER</p>
-	<p class="popup-subtitle">Assasination signal sent!</p>
 `;
 
 function makeNode(string) {
@@ -52,6 +54,10 @@ function update() {
 		} else {
 			$input.disabled = false;
 		}
+	}
+
+	if ($triesLeft) {
+		$triesLeft.innerHTML = state.maxTries - state.tries;
 	}
 }
 
@@ -113,6 +119,7 @@ socket.on('sync', serverState => {
 socket.on('reset', reset);
 socket.on('won', player('won'));
 socket.on('lost', player('lost'));
+socket.on('incorrect', player('incorrect'));
 
 // Controller UI
 if ($button.start) {

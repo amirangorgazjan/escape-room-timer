@@ -1,13 +1,18 @@
 const correctPin = '7834';
 
 const duration = 15 * 60 * 1000;
+const maxTries = 2;
 
-const state = {
+const initState = {
 	timeLeft: duration,
 	paused: true,
 	won: false,
 	lost: false,
+	tries: 0,
+	maxTries: maxTries
 };
+
+let state = Object.assign({}, initState);
 
 let tick = 0;
 let lastTs = (new Date()).getTime();
@@ -28,10 +33,7 @@ function startController(socket) {
 }
 
 function reset(socket) {
-	state.timeLeft = duration;
-	state.paused = true;
-	state.won = false;
-	state.lost = false;
+	state = Object.assign({}, initState);
 
 	tick = 0;
 
@@ -47,13 +49,16 @@ function startPlayer(socket) {
 		}
 
 		if (`${data}` !== correctPin) {
-			return socket.emit('incorrect');
+			state.tries += 1;
+
+			if (state.tries < maxTries) {
+				return socket.emit('incorrect');
+			} else {
+				return loseGame();
+			}
 		}
 
-		state.won = true;
-
-		socket.emit('won');
-		socket.broadcast.emit('won');
+		winGame();
 	});
 }
 
@@ -64,7 +69,7 @@ function timerUpdateCycle() {
 
 	lastTs = ts;
 
-	if (state.paused || state.won) {
+	if (state.paused || state.won || state.lost) {
 		return;
 	}
 
@@ -81,8 +86,21 @@ function checkGameLost() {
 		return;
 	}
 
+	loseGame();
+}
+
+function winGame() {
+	state.won = true;
+	emitGlobal('won');
+}
+
+function loseGame() {
 	state.lost = true;
-	sockets.forEach(socket => socket.emit('lost'));
+	emitGlobal('lost');
+}
+
+function emitGlobal(eventName) {
+	sockets.forEach(socket => socket.emit(eventName));
 }
 
 // Timer Synchronization

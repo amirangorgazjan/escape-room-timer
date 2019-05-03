@@ -124,3 +124,7 @@ body.won {
 	margin: 0 20px;
 	padding: 10px;
 }
+
+.tries-left {
+	margin-top: 20px;
+}
